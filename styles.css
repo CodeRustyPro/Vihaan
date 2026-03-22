@@ -271,22 +271,12 @@ a {
   min-height: 22rem;
   background: var(--surface-alt);
   padding: 0.55rem;
-  display: grid;
-  grid-template-rows: 1fr auto;
   transform-style: preserve-3d;
 }
 
 .hero-card img {
   filter: grayscale(0.75) contrast(1.08);
   transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.7s ease;
-}
-
-.hero-card figcaption {
-  padding: 0.85rem 0 0.25rem;
-  color: var(--text-dim);
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
 }
 
 .hero-card:hover img,
@@ -421,17 +411,7 @@ a {
   height: min(72vh, 34rem);
   background: var(--surface-alt);
   padding: 0.7rem;
-  display: grid;
-  grid-template-rows: 1fr auto;
   transform-style: preserve-3d;
-}
-
-.gallery-panel h3 {
-  margin-top: 0.9rem;
-  font-size: 0.78rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-dim);
 }
 
 .gallery-panel img,
@@ -501,14 +481,6 @@ a {
 .drift-card:nth-child(5) {
   grid-column: 7 / span 6;
   transform: translateY(3.2rem);
-}
-
-.drift-card h3 {
-  margin-top: 0.85rem;
-  font-size: 0.74rem;
-  letter-spacing: 0.12em;
-  color: var(--text-dim);
-  text-transform: uppercase;
 }
 
 .footer {
