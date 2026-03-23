@@ -8,8 +8,6 @@ const marquee = document.querySelector('[data-marquee]');
 const horizontalSection = document.querySelector('.horizontal-gallery');
 const track = document.querySelector('[data-gallery-track]');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const isCoarsePointer = window.matchMedia('(hover: none), (pointer: coarse)').matches;
-const motionEnabled = !reducedMotion && !isCoarsePointer;
 const activeTiltCards = new Set();
 
 let pointerX = window.innerWidth / 2;
@@ -38,21 +36,19 @@ function handlePointerMove(event) {
   }
 }
 
-if (motionEnabled) {
+if (!reducedMotion) {
   document.addEventListener('pointermove', handlePointerMove, { passive: true });
 }
 
-if (motionEnabled) {
-  hoverTargets.forEach((target) => {
-    target.addEventListener('pointerenter', () => {
-      cursor?.classList.add('active');
-    });
-
-    target.addEventListener('pointerleave', () => {
-      cursor?.classList.remove('active');
-    });
+hoverTargets.forEach((target) => {
+  target.addEventListener('pointerenter', () => {
+    cursor?.classList.add('active');
   });
-}
+
+  target.addEventListener('pointerleave', () => {
+    cursor?.classList.remove('active');
+  });
+});
 
 const revealObserver = new IntersectionObserver(
   (entries) => {
@@ -70,7 +66,7 @@ const revealObserver = new IntersectionObserver(
 
 revealItems.forEach((item) => revealObserver.observe(item));
 
-if (motionEnabled && 'IntersectionObserver' in window) {
+if ('IntersectionObserver' in window) {
   const tiltObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -89,7 +85,7 @@ if (motionEnabled && 'IntersectionObserver' in window) {
   );
 
   tiltCards.forEach((card) => tiltObserver.observe(card));
-} else if (motionEnabled) {
+} else {
   tiltCards.forEach((card) => activeTiltCards.add(card));
 }
 
@@ -122,7 +118,7 @@ function animateFrame() {
   const xRatio = pointerX / window.innerWidth - 0.5;
   const yRatio = pointerY / window.innerHeight - 0.5;
 
-  if (motionEnabled) {
+  if (!reducedMotion) {
     depthItems.forEach((node) => {
       const depth = Number(node.dataset.depth || 0);
       const x = xRatio * depthRange * depth;
@@ -131,7 +127,7 @@ function animateFrame() {
     });
   }
 
-  if (marquee && motionEnabled) {
+  if (marquee && !reducedMotion) {
     const delta = scrollY - lastScrollY;
     currentVelocity = currentVelocity * 0.9 + delta * 0.08;
     marqueeOffset -= 0.9 + currentVelocity;
@@ -143,7 +139,7 @@ function animateFrame() {
     marquee.style.transform = `translate3d(${marqueeOffset}px, 0, 0)`;
   }
 
-  if (motionEnabled && window.innerWidth > 760 && frameTick % 2 === 0) {
+  if (!reducedMotion && window.innerWidth > 760 && frameTick % 2 === 0) {
     activeTiltCards.forEach((card) => {
       const rect = card.getBoundingClientRect();
       const cx = rect.left + rect.width / 2;
@@ -160,7 +156,7 @@ function animateFrame() {
 }
 
 function startAnimationLoop() {
-  if (isAnimating || !motionEnabled) {
+  if (isAnimating || reducedMotion) {
     return;
   }
 
@@ -189,7 +185,7 @@ window.addEventListener('resize', () => {
 
 updateHorizontalGallery();
 
-if (!motionEnabled) {
+if (reducedMotion) {
   depthItems.forEach((node) => {
     node.style.transform = '';
   });

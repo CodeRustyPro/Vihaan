@@ -147,17 +147,19 @@ a {
 .hero-title span {
   font-family: "Syne", sans-serif;
   font-size: var(--hero-title);
-  letter-spacing: -0.03em;
+  letter-spacing: 0.08em;
   font-weight: 800;
-  text-transform: none;
+  text-transform: uppercase;
   text-wrap: balance;
 }
 
 .hero-title span:last-child {
   margin-left: 0;
+  font-family: "Space Grotesk", sans-serif;
   color: var(--accent);
   font-size: clamp(1.1rem, 2.4vw, 1.85rem);
-  font-weight: 600;
+  letter-spacing: 0.18em;
+  font-weight: 500;
   text-shadow: none;
 }
 
